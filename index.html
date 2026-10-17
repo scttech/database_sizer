@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Database Sizer</title>
+<link rel="icon" type="image/png" href="assets/images/database_sizer_128.png">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="top">
+  <h1><img class="logo" src="assets/images/database_sizer_128.png" alt="" width="40" height="40">Database Sizer</h1>
+  <label class="vendor" for="vendor">Vendor</label>
+  <select id="vendor"></select><button type="button" class="help" data-help="vendor" aria-label="Help: Database vendor">?</button>
+  <div class="actions">
+    <button id="btn-sample" type="button">Load sample</button>
+    <button id="btn-ddl" type="button">Paste DDL…</button>
+    <button id="btn-import" type="button">Import JSON</button>
+    <button id="btn-export" type="button">Export JSON</button>
+    <button id="btn-csv" type="button">Export CSV</button>
+    <button id="btn-reset" type="button" class="danger">Clear all</button>
+    <input id="file" type="file" accept=".json,application/json" hidden>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="editor" aria-label="Model editor">
+    <details class="card settings" open>
+      <summary>Assumptions</summary>
+      <div id="settings" class="settings-grid"></div>
+      <p class="hint">Blank storage/memory fields use the selected vendor's defaults. Everything is an estimate.</p>
+    </details>
+    <div id="tables"></div>
+    <button id="btn-add-table" type="button" class="primary">+ Add table</button>
+  </section>
+
+  <aside class="results" aria-label="Estimates">
+    <div id="tiles" class="tiles"></div>
+    <div id="warnings"></div>
+    <div class="card" id="vendor-notes"></div>
+    <div class="card"><h2>Size by table <button type="button" class="help" data-help="r_tables" aria-label="Help">?</button></h2><div id="chart-tables" class="chart"></div></div>
+    <div class="card"><h2>Growth projection <button type="button" class="help" data-help="r_growth" aria-label="Help">?</button></h2><div id="chart-growth" class="chart"></div></div>
+    <div class="card"><h2>Disk breakdown (per node) <button type="button" class="help" data-help="r_disk" aria-label="Help">?</button></h2><div id="breakdown"></div></div>
+    <div class="card"><h2>Memory breakdown <button type="button" class="help" data-help="r_mem" aria-label="Help">?</button></h2><div id="membreakdown"></div></div>
+    <div class="card"><h2>Table details <button type="button" class="help" data-help="r_detail" aria-label="Help">?</button></h2><div id="detail" class="scroll"></div></div>
+    <div class="card"><h2>Vendor comparison <button type="button" class="help" data-help="r_vendors" aria-label="Help">?</button></h2><div id="chart-vendors" class="chart"></div>
+      <p class="hint">Same model and shared assumptions; fill factors and memory defaults use each vendor's own.</p></div>
+  </aside>
+</main>
+
+<dialog id="ddl-dialog">
+  <form method="dialog" id="ddl-form">
+    <h2>Import CREATE TABLE / CREATE INDEX</h2>
+    <p class="hint">Paste DDL from any of the supported vendors. Row counts default to 100,000; adjust them afterwards.</p>
+    <textarea id="ddl-text" rows="14" spellcheck="false" placeholder="CREATE TABLE customers (&#10;  id BIGINT PRIMARY KEY,&#10;  name VARCHAR(100) NOT NULL&#10;);"></textarea>
+    <label class="inline"><input type="radio" name="ddl-mode" value="append" checked> Add to existing tables</label>
+    <label class="inline"><input type="radio" name="ddl-mode" value="replace"> Replace existing tables</label>
+    <div id="ddl-msg" class="hint"></div>
+    <div class="dialog-actions">
+      <button type="button" id="ddl-cancel">Cancel</button>
+      <button type="button" id="ddl-go" class="primary">Import</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="msg-dialog" class="msg" data-kind="info" aria-labelledby="msg-title">
+  <h2 id="msg-title"></h2>
+  <p id="msg-body"></p>
+  <ul id="msg-list" hidden></ul>
+  <div class="dialog-actions">
+    <button type="button" id="msg-cancel"></button>
+    <button type="button" id="msg-ok" class="primary">OK</button>
+  </div>
+</dialog>
+
+<footer>Estimates only, based on documented storage formats. Charts by <a href="vendor/LICENSE-d3.txt">d3.js</a> (vendored). Data stays in your browser.</footer>
+
+<script src="vendor/d3.min.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/ddl.js"></script>
+<script src="js/help.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

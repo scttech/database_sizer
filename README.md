@@ -4,7 +4,9 @@
 
 Estimate disk and memory for PostgreSQL, MySQL/MariaDB (InnoDB), SQL Server and Oracle from table definitions.
 
-**Run:** open `index.html` in a browser. No install, build step, or network access.
+**Live demo:** https://scttech.github.io/database_sizer/
+
+**Run locally:** open `index.html` in a browser. No install, build step, or network access.
 
 - `vendor/d3.min.js` – d3 v7.9.0 (ISC licence in `vendor/LICENSE-d3.txt`), the only third-party code.
 - `js/engine.js` – per-vendor row/index layout models and the disk/memory/growth roll-up.
